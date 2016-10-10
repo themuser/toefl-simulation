@@ -36,7 +36,7 @@
   					<input type="text" class="form-control" placeholder="성명을 적어주세요" aria-describedby="basic-addon2" id="name">
   				</div>
   			</div>
-  			<div class="col-lg-6">	  		
+  			<div class="col-lg-6">
 
   				<button type="button" class="btn btn-lg btn-warning" id="btnHelp" data-toggle="modal" data-target="#help">HELP</button>
 
@@ -70,8 +70,11 @@
   			<p>Read the question below. You have 30 minutes to plan, write, and revise your essay. Typically an effective response will contain a minimum of 300 words.</p>
 
   			<h3>Question:</h3>
-  			<p>People attend college or university for many different reasons (for example, new experiences, career preparation, increased knowledge). Why do you think people attend college or university? Use specific reasons and examples to support your answer.</p>
-
+  			<p>Do you agree or disagree with the following statement? Universities should give the same amount of money to their students' sports activities as they give their university libraries. Use specific reasons and examples to support your opinion.</p>
+  			<div>
+  				<h3>Remaining Time:</h3>
+  				<h1 id="timer">00:00</h1>
+  			</div>
   		</div>
   		<!--2nd column -->
   		<div class="form-group col-lg-6">
@@ -94,23 +97,24 @@
 
   	<!-- dictionary --> 
   	<div id="dictionary">		
-	  	<div class="container">  			
-	  		<div class="col-lg-6">
-	  			<h3>Dictionary</h3>
-	  			<div class="input-group">
-	  				<input type="text" class="form-control" id="searchKeyword" placeholder="Enter keyword to search on Longman English-English Dictionary" />
-	  				<span class="input-group-btn">
-	  					<button type="button" class="btn btn-default" id="btnSearch">Search</button>
-	  				</span>	  			
-	  			</div>
-	  		</div>
-	  	</div>
+  		<div class="container">
+  			<div class="col-lg-6"></div>
+  			<div class="col-lg-5">
+  				<h3>Thesaurus</h3>
+  				<div class="input-group">
+  					<input type="text" class="form-control" id="searchKeyword" placeholder="Enter keyword to search synomyms" />
+  					<span class="input-group-btn">
+  						<button type="button" class="btn btn-default" id="btnSearch">Search</button>
+  					</span>	  			
+  				</div>
+  			</div>
+  		</div>
 
-	  	<div class="container" >
-	  		<div class="col-lg-12" id="searchResult">
-	  		</div>
-	  	</div>
-	  </div>
+  		<div class="container" >
+  			<div class="col-lg-6 pull-right" id="searchResult">
+  			</div>
+  		</div>
+  	</div>
   </div>
 
 
@@ -119,20 +123,34 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../../bootstrap/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.0.4/firebase.js"></script>  	
-  <script src="../../../js/clipboard.min.js"></script>
+  <script src="../../../js/clipboard.min.js"></script>  
   <script src="../../../js/util.js"></script>
   <script>
-  	var isCg = true;	// control group
-  	if(isCg){
-  		$("#dictionary").hide();
 
-  		document.onmousedown=click;
-  		document.onkeydown=keypressed;
-  		document.oncontextmenu = function (e) {
-  			alert("오른쪽버튼을 이용할 수 없습니다.");
-  			return false;
+  	$(function(){
+  		
+  		var pathname = window.location.pathname;  		
+  		console.log(pathname);
+  		var isCg = pathname.includes('/cg/');
+  		var isSample = pathname.includes('/sample/');
+
+  		var time = (isSample? 10 : 30);
+  		countdown("timer", time, 0);
+
+  		if(isCg){
+  			$("#dictionary").hide();
+
+  			document.onmousedown=click;
+  			document.onkeydown=keypressed;
+  			document.oncontextmenu = function (e) {
+  				alert("오른쪽버튼을 이용할 수 없습니다.");
+  				return false;
+  			}
   		}
-  	}
+  	})
+  	
+  	
+
 
   	$("#textarea").keyup(function(){
   		showContentsLength(); 	
@@ -207,17 +225,11 @@
 		$("#searchResult").empty();
 		searchDictionary($("#searchKeyword").val(), function(res){  				
 
-			var results = JSON.parse(res)["results"];
-			results.forEach(function(value, index, ar){
-				var headword = value["headword"];
-				var definition = value["senses"][0]["definition"];
-
-				var headwordHtml = "<h4>" + headword + "</h4>";
-				var definitionHtml = "<p>" + definition + "</p>";
-
-				$("#searchResult").append(headwordHtml + definitionHtml)
+			var results = JSON.parse(res);
+			results["synonyms"].forEach(function(v, i, ar){
+				var html = "<h5>" + v + "</h5>";
+				$("#searchResult").append(html)
 			})
-
 
 			$("#searchResult").text();
 		});
@@ -311,6 +323,31 @@
 			$("#textLength").val($("#textarea").val().length);
 		}
 	}
-  	</script>  	
-  </body>
-  </html>
+
+	function countdown( elementName, minutes, seconds ){
+		var element, endTime, hours, mins, msLeft, time;
+
+		function twoDigits( n ){
+			return (n <= 9 ? "0" + n : n);
+		}
+
+		function updateTimer(){
+			msLeft = endTime - (+new Date);
+			if ( msLeft < 999 ){				
+				alert('Time is over');
+			} else {
+				time = new Date( msLeft );
+				hours = time.getUTCHours();
+				mins = time.getUTCMinutes();
+				$('#timer').text((hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() ));				
+				setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
+			}
+		}
+
+		// element = document.getElementById( elementName );
+		endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+		updateTimer();
+	}
+</script>  	
+</body>
+</html>

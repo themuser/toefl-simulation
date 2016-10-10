@@ -36,7 +36,7 @@
   					<input type="text" class="form-control" placeholder="성명을 적어주세요" aria-describedby="basic-addon2" id="name">
   				</div>
   			</div>
-  			<div class="col-lg-6">	  		
+  			<div class="col-lg-6">
 
   				<button type="button" class="btn btn-lg btn-warning" id="btnHelp" data-toggle="modal" data-target="#help">HELP</button>
 
@@ -73,7 +73,7 @@
   			<p>Do you agree or disagree with the following statement? Universities should give the same amount of money to their students' sports activities as they give their university libraries. Use specific reasons and examples to support your opinion.</p>
   			<div>
   				<h3>Remaining Time:</h3>
-  				<h1 id="timer">13:11</h1>
+  				<h1 id="timer">00:00</h1>
   			</div>
   		</div>
   		<!--2nd column -->
@@ -127,19 +127,30 @@
   <script src="../../../js/util.js"></script>
   <script>
 
-  	countdown("timer", 15, 0);
+  	$(function(){
+  		
+  		var pathname = window.location.pathname;  		
+  		console.log(pathname);
+  		var isCg = pathname.includes('/cg/');
+  		var isSample = pathname.includes('/sample/');
 
-  	var isCg = false;	// control group
-  	if(isCg){
-  		$("#dictionary").hide();
+  		var time = (isSample? 10 : 30);
+  		countdown("timer", time, 0);
 
-  		document.onmousedown=click;
-  		document.onkeydown=keypressed;
-  		document.oncontextmenu = function (e) {
-  			alert("오른쪽버튼을 이용할 수 없습니다.");
-  			return false;
+  		if(isCg){
+  			$("#dictionary").hide();
+
+  			document.onmousedown=click;
+  			document.onkeydown=keypressed;
+  			document.oncontextmenu = function (e) {
+  				alert("오른쪽버튼을 이용할 수 없습니다.");
+  				return false;
+  			}
   		}
-  	}
+  	})
+  	
+  	
+
 
   	$("#textarea").keyup(function(){
   		showContentsLength(); 	
@@ -215,9 +226,6 @@
 		searchDictionary($("#searchKeyword").val(), function(res){  				
 
 			var results = JSON.parse(res);
-			
-			console.log(results["synonyms"])
-
 			results["synonyms"].forEach(function(v, i, ar){
 				var html = "<h5>" + v + "</h5>";
 				$("#searchResult").append(html)
@@ -325,16 +333,14 @@
 
 		function updateTimer(){
 			msLeft = endTime - (+new Date);
-			if ( msLeft < 1000 ) {
-				// element.innerHTML = "countdown's over!";
+			if ( msLeft < 999 ){				
 				alert('Time is over');
 			} else {
 				time = new Date( msLeft );
 				hours = time.getUTCHours();
 				mins = time.getUTCMinutes();
-				$('#timer').text((hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() ));
-				
-				setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+				$('#timer').text((hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() ));				
+				setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
 			}
 		}
 
