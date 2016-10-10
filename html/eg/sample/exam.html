@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>EXAMPLE</title>
+
+	<!-- Bootstrap -->
+	<link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+	<!-- Custom styles for this template -->
+	<link href="../../../css/jumbotron.css" rel="stylesheet">
+	<!-- Optional theme -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>				
+  <body>
+  	<div class="container theme-showcase" role="main">
+
+  		<div class="container text-right form-group">
+  			<div class="col-lg-3">
+  				<div class="input-group" id="majorGroup">
+  					<span class="input-group-addon" id="basic-addon1">전공</span>
+  					<input type="text" class="form-control" placeholder="전공을 적어주세요" aria-describedby="basic-addon1" id="major">
+  				</div>
+  			</div>
+  			<div class="col-lg-3">
+  				<div class="input-group" id="nameGroup">
+  					<span class="input-group-addon" id="basic-addon2">성명</span>
+  					<input type="text" class="form-control" placeholder="성명을 적어주세요" aria-describedby="basic-addon2" id="name">
+  				</div>
+  			</div>
+  			<div class="col-lg-6">	  		
+
+  				<button type="button" class="btn btn-lg btn-warning" id="btnHelp" data-toggle="modal" data-target="#help">HELP</button>
+
+  				<!-- 모달 팝업 -->
+  				<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  					<div class="modal-dialog" style="width:1050px">
+  						<div class="modal-content">
+  						<!-- <div class="modal-header">
+  							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  							<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+  						</div> -->
+  						<div class="modal-body">
+  							<img src="../../../image/help.png">
+  						</div>	
+  						<div class="modal-footer">
+  							<button type="button" class="btn btn-default" data-dismiss="modal">Return to Question</button>  							
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+
+
+  			<button type="button" class="btn btn-lg btn-primary" id="btnSubmit">SUBMIT</button>
+  		</div>
+  	</div>	
+  	<br>
+  	<div class="container">
+  		<!-- 1st column -->
+  		<div class="col-lg-6">
+  			<h3>Directions:</h3>
+  			<p>Read the question below. You have 30 minutes to plan, write, and revise your essay. Typically an effective response will contain a minimum of 300 words.</p>
+
+  			<h3>Question:</h3>
+  			<p>People attend college or university for many different reasons (for example, new experiences, career preparation, increased knowledge). Why do you think people attend college or university? Use specific reasons and examples to support your answer.</p>
+
+  		</div>
+  		<!--2nd column -->
+  		<div class="form-group col-lg-6">
+  			<div class="container col-lg-6" style="padding-left:0px">
+  				<button type="button" class="btn btn-sm btn-default" id="btnCut">Cut</button>  					
+  				<button type="button" class="btn btn-sm btn-default" id="btnPaste">Paste</button>
+  				<button type="button" class="btn btn-sm btn-default" id="btnUndo">Undo</button>
+  			</div>
+  			<div class="container col-lg-6 text-right" style="padding-right:0px">
+  				<label>Word Count</label>
+  				<input type="text" readonly="true" class="text-right" size="4" id="textLength"/>
+  				<button type="button" class="btn btn-sm btn-default" id="btnHide">Hide</button>
+  			</div>
+
+  			<div class="form-group" id="textareaGroup">
+  				<textarea class="form-control" rows="15" contenteditable="true" spellcheck="true" placeholder="Write your answer here" id="textarea"></textarea>
+  			</div>
+  		</div>
+  	</div>
+
+  	<!-- dictionary --> 
+  	<div id="dictionary">		
+	  	<div class="container">  			
+	  		<div class="col-lg-6">
+	  			<h3>Dictionary</h3>
+	  			<div class="input-group">
+	  				<input type="text" class="form-control" id="searchKeyword" placeholder="Enter keyword to search on Longman English-English Dictionary" />
+	  				<span class="input-group-btn">
+	  					<button type="button" class="btn btn-default" id="btnSearch">Search</button>
+	  				</span>	  			
+	  			</div>
+	  		</div>
+	  	</div>
+
+	  	<div class="container" >
+	  		<div class="col-lg-12" id="searchResult">
+	  		</div>
+	  	</div>
+	  </div>
+  </div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="../../../jquery/jquery-3.1.0.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="../../../bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.0.4/firebase.js"></script>  	
+  <script src="../../../js/clipboard.min.js"></script>  
+  <script src="../../../js/util.js"></script>
+  <script>
+  	var isCg = false;	// control group
+  	if(isCg){
+  		$("#dictionary").hide();
+
+  		document.onmousedown=click;
+  		document.onkeydown=keypressed;
+  		document.oncontextmenu = function (e) {
+  			alert("오른쪽버튼을 이용할 수 없습니다.");
+  			return false;
+  		}
+  	}
+
+  	$("#textarea").keyup(function(){
+  		showContentsLength(); 	
+  	});
+
+	// cut button
+	$("#btnCut").click(function(){
+		stack = new Stack();
+		var oldVal = $("textarea").val();  			
+
+		var contents = $("#textarea").val();
+		var selection = getSelection();
+		var start = selection[0];
+		var end = selection[1];
+
+		$("#textarea").selectRange(start, end);
+
+		document.execCommand('copy');
+		$("#textarea").val(contents.substring(0, start) + contents.substring(end, contents.size));
+		showContentsLength();
+
+		var newVal = $("textarea").val();
+		stack.push(newVal);
+		stack.push(oldVal);  			
+	});
+
+	// paste button
+	// WORKS ONLY ON IE
+	$("#btnPaste").click(function(){
+
+		stack = new Stack();
+		var oldVal = $("textarea").val();
+
+
+		var editor = document.getElementById("textarea");
+		editor.focus();
+		document.execCommand('paste');
+		showContentsLength();
+
+		var newVal = $("textarea").val();
+		stack.push(newVal);
+		stack.push(oldVal); 
+	});
+
+	// undo button
+	var stack = new Stack();
+	var mode;	// writing/cut/paste
+	stack.push("");
+	var before = "";
+	$("#btnUndo").click(function(){
+		var pop = stack.pop();
+		stack.push($("textarea").val());
+		$("textarea").val(pop);
+
+		showContentsLength();
+	});
+
+
+	// submit button
+	$("#btnSubmit").click(function(){
+		if(checkValidation()){
+			var major = $("#major").val();
+			var username = $("#name").val();
+			var answer = $("#textarea").val();
+			var time = new Date().format("yyyy-MM-dd HH:mm:ss");
+			var isOriginal = true;
+			writeUserData(major, username, answer, time, isOriginal); 				
+		}
+	});
+
+	$("#btnSearch").click(function(){
+		$("#searchResult").empty();
+		searchDictionary($("#searchKeyword").val(), function(res){  				
+
+			var results = JSON.parse(res)["results"];
+			results.forEach(function(value, index, ar){
+				var headword = value["headword"];
+				var definition = value["senses"][0]["definition"];
+
+				var headwordHtml = "<h4>" + headword + "</h4>";
+				var definitionHtml = "<p>" + definition + "</p>";
+
+				$("#searchResult").append(headwordHtml + definitionHtml)
+			})
+
+
+			$("#searchResult").text();
+		});
+	})
+
+	function checkValidation(){
+		var flag = true;
+		if(!$("#major").val()){
+			$("#majorGroup").addClass("has-error");
+			flag = false;
+		} else {
+			$("#majorGroup").removeClass("has-error");  				
+		}
+
+		if(!$("#name").val()){
+			$("#nameGroup").addClass("has-error");
+			flag = false;
+		} else {
+			$("#nameGroup").removeClass("has-error");  				
+		}
+
+		if(!$("#textarea").val()){
+			$("#textareaGroup").addClass("has-error");
+			flag = false;  				
+		} else {
+			$("#textareaGroup").removeClass("has-error");  				
+		}
+
+		return flag;
+	}
+
+	function writeUserData(major, username, answer, time, isOriginal) {
+		firebase.database().ref('exams/' + major + "|" + username + "|" + time).set({
+			username: username,
+			answer: answer,
+			time: time,
+			isOriginal: isOriginal
+		}, function(error){
+			if(error){
+				console.log("An error occured. Please contact to the administrator");
+			} else {
+				console.log("Successfully saved!");
+
+			}
+		});
+	}
+
+
+	$.fn.selectRange = function(start, end) {
+		if(end === undefined) {
+			end = start;
+		}
+		return this.each(function() {
+			if('selectionStart' in this) {
+				this.selectionStart = start;
+				this.selectionEnd = end;
+			} else if(this.setSelectionRange) {
+				this.setSelectionRange(start, end);
+			} else if(this.createTextRange) {
+				var range = this.createTextRange();
+				range.collapse(true);
+				range.moveEnd('character', end);
+				range.moveStart('character', start);
+				range.select();
+			}
+		});
+	};
+
+	function getSelection(){
+		var area = document.getElementById("textarea");
+		var start = area.selectionStart;
+		var finish = area.selectionEnd;
+		var selection = area.value.substring(start, finish);
+		return [start, finish];
+	};
+
+	var isLengthShown = true;
+	$("#btnHide").click(function(){
+		isLengthShown = !isLengthShown
+		if(isLengthShown){
+			$("#btnHide").text("Hide");
+			showContentsLength();
+		} else {
+			$("#btnHide").text("Show");
+			$("#textLength").val("");
+		}
+	});
+
+	function showContentsLength(){
+		if(isLengthShown){
+			$("#textLength").val($("#textarea").val().length);
+		}
+	}
+  	</script>  	
+  </body>
+  </html>
