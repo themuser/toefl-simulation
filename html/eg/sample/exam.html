@@ -68,98 +68,131 @@
   		<div class="col-lg-6">
   			<h3>Directions:</h3>
   			<p>Read the question below. You have 30 minutes to plan, write, and revise your essay. Typically an effective response will contain a minimum of 300 words.</p>
-
-  			<h3>Question:</h3>
-  			<p>People attend college or university for many different reasons (for example, new experiences, career preparation, increased knowledge). Why do you think people attend college or university? Use specific reasons and examples to support your answer.</p>
-  			<div>
-  				<h3>Remaining Time:</h3>
-  				<h1 id="timer">00:00</h1>
-  			</div>
-  		</div>
-  		<!--2nd column -->
-  		<div class="form-group col-lg-6">
-  			<div class="container col-lg-6" style="padding-left:0px">
-  				<button type="button" class="btn btn-sm btn-default" id="btnCut">Cut</button>  					
-  				<button type="button" class="btn btn-sm btn-default" id="btnPaste">Paste</button>
-  				<button type="button" class="btn btn-sm btn-default" id="btnUndo">Undo</button>
-  			</div>
-  			<div class="container col-lg-6 text-right" style="padding-right:0px">
-  				<label>Word Count</label>
-  				<input type="text" readonly="true" class="text-right" size="4" id="textLength"/>
-  				<button type="button" class="btn btn-sm btn-default" id="btnHide">Hide</button>
-  			</div>
-
-  			<div class="form-group" id="textareaGroup">
-  				<textarea class="form-control" rows="15" contenteditable="true" spellcheck="true" placeholder="Write your answer here" id="textarea"></textarea>
-  			</div>
-  		</div>
+  		</br></br></br>
+  		<h3>Question:</h3>
+  		<label style="font-size: 18px" id="question"></label>
   	</div>
-
-  	<!-- dictionary --> 
-  	<div id="dictionary">		
-  		<div class="container">
-  			<div class="col-lg-6"></div>
-  			<div class="col-lg-5">
-  				<h3>Thesaurus</h3>
-  				<div class="input-group">
-  					<input type="text" class="form-control" id="searchKeyword" placeholder="Enter keyword to search synomyms" />
-  					<span class="input-group-btn">
-  						<button type="button" class="btn btn-default" id="btnSearch">Search</button>
-  					</span>	  			
-  				</div>
-  			</div>
+  	<!--2nd column -->
+  	<div class="form-group col-lg-6">
+  		<div class="text-right" style="padding-right:0px">
+  			Remaining Time:
+  			<label style="font-size: 18px" id="timer">00:00</label>
+  		</div>
+  		<div class="container col-lg-6" style="padding-left:0px">
+  			<button type="button" class="btn btn-sm btn-default" id="btnCopy">Copy</button>
+  			<button type="button" class="btn btn-sm btn-default" id="btnCut">Cut</button>
+  			<button type="button" class="btn btn-sm btn-default" id="btnPaste">Paste</button>
+  			<button type="button" class="btn btn-sm btn-default" id="btnUndo">Undo</button>
+  		</div>
+  		<div class="container col-lg-6 text-right" style="padding-right:0px">
+  			<label>Word Count</label>
+  			<input type="text" readonly="true" class="text-right" size="4" id="textLength"/>
+  			<button type="button" class="btn btn-sm btn-default" id="btnHide">Hide</button>
   		</div>
 
-  		<div class="container" >
-  			<div class="col-lg-6 pull-right" id="searchResult">
-  			</div>
+  		<div class="form-group" id="textareaGroup">
+  			<textarea class="form-control" rows="15" contenteditable="true" spellcheck="true" placeholder="Write your answer here" id="textarea"></textarea>
   		</div>
   	</div>
   </div>
 
+  <!-- dictionary --> 
+  <div id="dictionary">		
+  	<div class="container">
+  		<div class="col-lg-6"></div>
+  		<div class="col-lg-5">
+  			<h3>Thesaurus</h3>
+  			<div class="input-group">
+  				<input type="text" class="form-control" id="searchKeyword" placeholder="Enter keyword to search synomyms" />
+  				<span class="input-group-btn">
+  					<button type="button" class="btn btn-default" id="btnSearch">Search</button>
+  				</span>	  			
+  			</div>
+  		</div>
+  	</div>
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="../../../jquery/jquery-3.1.0.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="../../../bootstrap/js/bootstrap.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/3.0.4/firebase.js"></script>  	
-  <script src="../../../js/clipboard.min.js"></script>  
-  <script src="../../../js/util.js"></script>
-  <script>
-
-  	$(function(){
-  		
-  		var pathname = window.location.pathname;  		
-  		console.log(pathname);
-  		var isCg = pathname.includes('/cg/');
-  		var isSample = pathname.includes('/sample/');
-
-  		var time = (isSample? 10 : 30);
-  		countdown("timer", time, 0);
-
-  		if(isCg){
-  			$("#dictionary").hide();
-
-  			document.onmousedown=click;
-  			document.onkeydown=keypressed;
-  			document.oncontextmenu = function (e) {
-  				alert("오른쪽버튼을 이용할 수 없습니다.");
-  				return false;
-  			}
-  		}
-  	})
-  	
-  	
+  	<div class="container" >
+  		<div class="col-lg-6 pull-right" id="searchResult">
+  		</div>
+  	</div>
+  </div>
+</div>
 
 
-  	$("#textarea").keyup(function(){
-  		showContentsLength(); 	
-  	});
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../../../jquery/jquery-3.1.0.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../../bootstrap/js/bootstrap.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.0.4/firebase.js"></script>  	
+<script src="../../../js/clipboard.min.js"></script>  
+<script src="../../../js/util.js"></script>
+<script>
+
+	$(function(){
+
+		var pathname = window.location.pathname;  		
+		console.log(pathname);
+		var isCg = pathname.includes('/cg/');
+		var isSample = pathname.includes('/sample/');
+
+		if(isCg){
+			$('btnCopy').hide()
+			$("#dictionary").hide()
+
+			document.onmousedown=click;
+			document.onkeydown=keypressed;
+			document.oncontextmenu = function (e) {
+				alert("오른쪽버튼을 이용할 수 없습니다.");
+				return false;
+			}
+		}
+
+		if(isSample){
+			$('#question').text('People attend college or university for many different reasons (for example, new experiences, career preparation, increased knowledge). Why do you think people attend college or university? Use specific reasons and examples to support your answer.')
+		} else {
+			$('#question').text("Do you agree or disagree with the following statement? Universities should give the same amount of money to their students' sports activities as they give their university libraries. Use specific reasons and examples to support your opinion.")
+		}
+
+		var time = (isSample? 10 : 30);
+		$('#timer').text(time + ':00');
+
+		var keypressed = false;
+		$('#textarea').keypress(function(e){
+			if(!keypressed){
+				keypressed = true
+				countdown("timer", time, 0)
+			}
+		})
+	})
+
+	$("#textarea").keyup(function(){
+		showContentsLength(); 	
+	});
+
+	// copy button
+	$('#btnCopy').click(function(){
+		stack = new Stack();
+		var oldVal = $("#textarea").val();
+
+		var contents = $("#textarea").val();
+		var selection = getSelection();
+		var start = selection[0];
+		var end = selection[1];
+
+		$("#textarea").selectRange(start, end);
+
+		document.execCommand('copy');		
+		showContentsLength();
+
+		var newVal = $("#textarea").val();
+		stack.push(newVal);
+		stack.push(oldVal);
+	});
 
 	// cut button
 	$("#btnCut").click(function(){
 		stack = new Stack();
-		var oldVal = $("textarea").val();  			
+		var oldVal = $("#textarea").val();
 
 		var contents = $("#textarea").val();
 		var selection = getSelection();
@@ -172,9 +205,9 @@
 		$("#textarea").val(contents.substring(0, start) + contents.substring(end, contents.size));
 		showContentsLength();
 
-		var newVal = $("textarea").val();
+		var newVal = $("#textarea").val();
 		stack.push(newVal);
-		stack.push(oldVal);  			
+		stack.push(oldVal);
 	});
 
 	// paste button
@@ -182,15 +215,20 @@
 	$("#btnPaste").click(function(){
 
 		stack = new Stack();
-		var oldVal = $("textarea").val();
+		var oldVal = $('#textarea').val();
+		console.log(oldVal)
 
-
-		var editor = document.getElementById("textarea");
-		editor.focus();
-		document.execCommand('paste');
+		var area = document.getElementById('textarea')
+		area.focus()
+		
+		if(document.execCommand('paste')){
+			console.log('true')
+		} else {
+			console.log('false')
+		}
 		showContentsLength();
-
-		var newVal = $("textarea").val();
+	
+		var newVal = $("#textarea").val();		
 		stack.push(newVal);
 		stack.push(oldVal); 
 	});
@@ -335,6 +373,7 @@
 			msLeft = endTime - (+new Date);
 			if ( msLeft < 999 ){				
 				alert('Time is over');
+				$('#textarea').attr('disabled', 'disabled');
 			} else {
 				time = new Date( msLeft );
 				hours = time.getUTCHours();
