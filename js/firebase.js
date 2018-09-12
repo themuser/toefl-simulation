@@ -1,10 +1,10 @@
 
 // Initialize firebase
 var config = {
-	apiKey: "AIzaSyCUgmv4uQThNHznAkXroGiobZshjSutsHE",
-	authDomain: "toefl-7cdb8.firebaseapp.com",
-	databaseURL: "https://toefl-7cdb8.firebaseio.com",
-	storageBucket: "toefl-7cdb8.appspot.com",
+	apiKey: "",
+	authDomain: "",
+	databaseURL: "",
+	storageBucket: "",
 };
 firebase.initializeApp(config);
 var rootRef = firebase.database().ref();
